@@ -12,18 +12,18 @@ public class DbConnector {
 
     public static Connection getConnection() throws SQLException {
         if (Objects.isNull(connection)) {
-                connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-            }
+            connection = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+        }
         return connection;
     }
 
     public static void showPhoneAddress() throws SQLException {
 
         String query = "SELECT e.employee_id, e.phone_number, p.country,\" \", p.city, \" \", p.street, \" \"," +
-                        " p.house_number\n" +
-                        "FROM Employee e\n" +
-                        "INNER JOIN Personal_info p\n" +
-                        "ON e.personal_id = p.personal_id;";
+                " p.house_number\n" +
+                "FROM Employee e\n" +
+                "INNER JOIN Personal_info p\n" +
+                "ON e.personal_id = p.personal_id;";
 
         try (Statement statement = getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -37,7 +37,7 @@ public class DbConnector {
                 int house_number = resultSet.getInt("house_number");
 
                 System.out.println(employee_id + "\t\t" + phone_number + "\t\t" + country + "\t\t" + city +
-                                "\t\t" + street + "\t\t" + house_number);
+                        "\t\t" + street + "\t\t" + house_number);
             }
         }
 
@@ -47,10 +47,10 @@ public class DbConnector {
     public static void showPhoneBirthDate() throws SQLException {
 
         String query = "SELECT e.employee_id, e.phone_number, p.birth_date\n" +
-                        "FROM Employee e\n" +
-                        "INNER JOIN  Personal_info p\n" +
-                        "ON e.personal_id = p.personal_id\n" +
-                        "WHERE family_status = 1;";
+                "FROM Employee e\n" +
+                "INNER JOIN  Personal_info p\n" +
+                "ON e.personal_id = p.personal_id\n" +
+                "WHERE family_status = 1;";
 
         try (Statement statement = getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -65,15 +65,16 @@ public class DbConnector {
         }
         System.out.println("=========================================================================================");
     }
+
     public static void showManagerPhoneBirthDate() throws SQLException {
 
-        String query = "SELECT e.employee, pos.position,e.phone_number, p.birth_date\n" +
-                        "FROM Position pos\n" +
-                        "INNER JOIN Employee e\n" +
-                        "ON e.position_id = pos.position_id\n" +
-                        "INNER JOIN  Personal_info p\n" +
-                        "ON e.personal_id = p.personal_id\n" +
-                        "WHERE position = 'manager';\n";
+        String query = "SELECT e.employee_id, pos.position,e.phone_number, p.birth_date\n" +
+                "FROM Position pos\n" +
+                "INNER JOIN Employee e\n" +
+                "ON e.position_id = pos.position_id\n" +
+                "INNER JOIN  Personal_info p\n" +
+                "ON e.personal_id = p.personal_id\n" +
+                "WHERE position = 'manager';\n";
 
         try (Statement statement = getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
@@ -89,11 +90,4 @@ public class DbConnector {
         System.out.println("=========================================================================================");
     }
 
-
-
-    public static void main(String[] args) throws SQLException {
-        showPhoneAddress();
-        showPhoneBirthDate();
-        showManagerPhoneBirthDate();
-    }
 }
